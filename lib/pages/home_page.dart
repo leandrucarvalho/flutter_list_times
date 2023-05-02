@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_list_times/controller/home_controller.dart';
 import 'package:flutter_list_times/models/times_model.dart';
 import 'package:flutter_list_times/pages/time_details_page.dart';
+import 'package:flutter_list_times/repository/times_repository.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,7 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  dynamic controller;
+  late HomeController controller;
 
   @override
   void initState() {
@@ -26,31 +28,36 @@ class _HomePageState extends State<HomePage> {
         title: const Text('Brasileirão'),
         centerTitle: true,
       ),
-      body: ListView.separated(
-        itemCount: controller.tabela.length,
-        itemBuilder: (BuildContext context, int index) {
-          final List<Time> tabela = controller.tabela;
-          return ListTile(
-            leading: Image.network(tabela[index].brasao),
-            title: Text(tabela[index].nome),
-            trailing: Text(
-              tabela[index].pontos.toString(),
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => TimeDetailsPage(
-                    key: Key(tabela[index].nome),
-                    time: tabela[index],
-                  ),
+      body: Consumer<TimesRepository>(
+        builder: (context, repositorio, child) {
+          return ListView.separated(
+            itemCount: repositorio.times.length,
+            itemBuilder: (BuildContext context, int index) {
+              final List<Time> tabela = repositorio.times;
+              return ListTile(
+                leading: Image.network(tabela[index].brasao),
+                title: Text(tabela[index].nome),
+                subtitle: Text('Titulos: ${tabela[index].titulos.length}'),
+                trailing: Text(
+                  tabela[index].pontos.toString(),
                 ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => TimeDetailsPage(
+                        key: Key(tabela[index].nome),
+                        time: tabela[index],
+                      ),
+                    ),
+                  );
+                },
               );
             },
+            separatorBuilder: (_, __) => const Divider(),
+            padding: const EdgeInsets.all(16),
           );
         },
-        separatorBuilder: (_, __) => const Divider(),
-        padding: const EdgeInsets.all(16),
       ),
     );
   }

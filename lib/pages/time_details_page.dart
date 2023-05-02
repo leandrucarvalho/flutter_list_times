@@ -2,7 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_list_times/models/times_model.dart';
 import 'package:flutter_list_times/pages/add_titulo_page.dart';
+import 'package:flutter_list_times/pages/edit_titulo_page.dart';
 import 'package:flutter_list_times/repository/times_repository.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -20,12 +22,9 @@ class TimeDetailsPage extends StatefulWidget {
 
 class _TimeDetailsPageState extends State<TimeDetailsPage> {
   tituloPage() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => AddTituloPage(
-          time: widget.time,
-        ),
+    Get.to(
+      () => AddTituloPage(
+        time: widget.time,
       ),
     );
   }
@@ -112,6 +111,14 @@ class _TimeDetailsPageState extends State<TimeDetailsPage> {
                 leading: const Icon(Icons.emoji_events),
                 title: Text(time.titulos[index].campeonato),
                 trailing: Text(time.titulos[index].ano),
+                onTap: () {
+                  Get.to(
+                    EditTituloPage(
+                      titulo: time.titulos[index],
+                    ),
+                    fullscreenDialog: true,
+                  );
+                },
               );
             },
             separatorBuilder: (_, __) => const Divider(),

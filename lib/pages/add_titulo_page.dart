@@ -1,10 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_list_times/models/titulo_model.dart';
 import 'package:flutter_list_times/repository/times_repository.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../models/times_model.dart';
-import '../models/tituto_model.dart';
 
 class AddTituloPage extends StatefulWidget {
   final Time time;
@@ -32,12 +33,15 @@ class _AddTituloPageState extends State<AddTituloPage> {
       ),
     );
 
-    Navigator.pop(context);
+    Get.back();
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Salvo com sucesso!'),
-      ),
+    Get.snackbar(
+      'Sucesso!',
+      'Título cadastrado com sucesso!',
+      backgroundColor: Colors.grey[900],
+      colorText: Colors.white,
+      snackPosition: SnackPosition.BOTTOM,
+      margin: const EdgeInsets.all(18),
     );
   }
 

@@ -3,6 +3,7 @@ import 'package:flutter_list_times/controller/home_controller.dart';
 import 'package:flutter_list_times/models/times_model.dart';
 import 'package:flutter_list_times/pages/time_details_page.dart';
 import 'package:flutter_list_times/repository/times_repository.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -42,13 +43,10 @@ class _HomePageState extends State<HomePage> {
                   tabela[index].pontos.toString(),
                 ),
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => TimeDetailsPage(
-                        key: Key(tabela[index].nome),
-                        time: tabela[index],
-                      ),
+                  Get.to(
+                    () => TimeDetailsPage(
+                      key: Key(tabela[index].nome),
+                      time: tabela[index],
                     ),
                   );
                 },

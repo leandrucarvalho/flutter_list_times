@@ -35,9 +35,14 @@ class _HomePageState extends State<HomePage> {
             itemBuilder: (BuildContext context, int index) {
               final List<Time> tabela = repositorio.times;
               return ListTile(
-                leading: Image.network(tabela[index].brasao),
+                leading: Hero(
+                  tag: tabela[index].nome,
+                  child: Image.network(tabela[index].brasao),
+                ),
                 title: Text(tabela[index].nome),
-                subtitle: Text('Titulos: ${tabela[index].titulos.length}'),
+                subtitle: Text(
+                  'Titulos: ${tabela[index].titulos.length}',
+                ),
                 trailing: Text(
                   tabela[index].pontos.toString(),
                 ),

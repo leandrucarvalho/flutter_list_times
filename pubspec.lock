@@ -83,6 +83,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.6.5"
+  hero_animation:
+    dependency: "direct main"
+    description:
+      name: hero_animation
+      sha256: "01892d2b0dffb382014d7dabb8bea09fc389beb02489179c6d1b500284d8d2ef"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0+3"
   js:
     dependency: transitive
     description:
@@ -210,4 +218,4 @@ packages:
     version: "2.1.4"
 sdks:
   dart: ">=2.19.2 <3.0.0"
-  flutter: ">=1.16.0"
+  flutter: ">=1.17.0"

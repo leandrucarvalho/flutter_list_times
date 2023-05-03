@@ -72,13 +72,19 @@ class _TimeDetailsPageState extends State<TimeDetailsPage> {
                       ? SizedBox(
                           width: 100,
                           height: 100,
-                          child: Image.network(
-                            widget.time.brasao,
-                            fit: BoxFit.cover,
+                          child: Hero(
+                            tag: widget.time.nome,
+                            child: Image.network(
+                              widget.time.brasao,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         )
-                      : Image.network(
-                          widget.time.brasao.replaceAll('40x40', '100x100'),
+                      : Hero(
+                          tag: widget.time.nome,
+                          child: Image.network(
+                            widget.time.brasao.replaceAll('40x40', '100x100'),
+                          ),
                         ),
                 ),
                 Text(

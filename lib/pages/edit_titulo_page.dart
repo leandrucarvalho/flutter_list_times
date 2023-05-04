@@ -34,7 +34,7 @@ class _EditTituloPageState extends State<EditTituloPage> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Salvo com sucesso!'),
+        content: Text('Atualizado com sucesso!'),
       ),
     );
   }

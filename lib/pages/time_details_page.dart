@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_list_times/models/times_model.dart';
 import 'package:flutter_list_times/pages/add_titulo_page.dart';
+import 'package:flutter_list_times/pages/edit_titulo_page.dart';
 import 'package:flutter_list_times/repository/times_repository.dart';
 import 'package:provider/provider.dart';
 
@@ -118,6 +119,16 @@ class _TimeDetailsPageState extends State<TimeDetailsPage> {
                 leading: const Icon(Icons.emoji_events),
                 title: Text(time.titulos[index].campeonato),
                 trailing: Text(time.titulos[index].ano),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => EditTituloPage(
+                        titulo: time.titulos[index],
+                      ),
+                    ),
+                  );
+                },
               );
             },
             separatorBuilder: (_, __) => const Divider(),

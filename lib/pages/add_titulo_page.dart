@@ -33,15 +33,12 @@ class _AddTituloPageState extends State<AddTituloPage> {
       ),
     );
 
-    Get.back();
+    Navigator.pop(context);
 
-    Get.snackbar(
-      'Sucesso!',
-      'Título cadastrado com sucesso!',
-      backgroundColor: Colors.grey[900],
-      colorText: Colors.white,
-      snackPosition: SnackPosition.BOTTOM,
-      margin: const EdgeInsets.all(18),
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Salvo com sucesso!'),
+      ),
     );
   }
 

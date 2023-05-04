@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_list_times/models/titulo_model.dart';
 import 'package:flutter_list_times/repository/times_repository.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class EditTituloPage extends StatefulWidget {
@@ -31,13 +30,13 @@ class _EditTituloPageState extends State<EditTituloPage> {
       campeonato: _campeonato.text,
     );
 
-    Get.back();
+    Navigator.pop(context);
 
-    Get.snackbar('Sucesso!', 'Título atualizado com sucesso!',
-        backgroundColor: Colors.grey[900],
-        colorText: Colors.white,
-        snackPosition: SnackPosition.BOTTOM,
-        margin: const EdgeInsets.all(18));
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Salvo com sucesso!'),
+      ),
+    );
   }
 
   @override

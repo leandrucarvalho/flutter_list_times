@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_list_times/models/tituto_model.dart';
+import 'package:flutter_list_times/models/titulo_model.dart';
 
 import '../models/times_model.dart';
 
@@ -12,6 +12,15 @@ class TimesRepository extends ChangeNotifier {
 
   void addTitulo({required Time time, required Titulo titulo}) {
     time.titulos.add(titulo);
+    notifyListeners();
+  }
+
+  void editTitulo(
+      {required Titulo titulo,
+      required String ano,
+      required String campeonato}) {
+    titulo.ano = ano;
+    titulo.campeonato = campeonato;
     notifyListeners();
   }
 

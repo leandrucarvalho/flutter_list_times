@@ -1,10 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_list_times/models/titulo_model.dart';
 import 'package:flutter_list_times/repository/times_repository.dart';
 import 'package:provider/provider.dart';
 
 import '../models/times_model.dart';
-import '../models/tituto_model.dart';
 
 class AddTituloPage extends StatefulWidget {
   final Time time;

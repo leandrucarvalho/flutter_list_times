@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_list_times/models/tituto_model.dart';
+import 'package:flutter_list_times/models/titulo_model.dart';
 
 class Time {
   String brasao;

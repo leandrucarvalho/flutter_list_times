@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_list_times/controller/theme_controller.dart';
 import 'package:flutter_list_times/pages/home_page.dart';
 import 'package:flutter_list_times/repository/times_repository.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => TimesRepository(),
-      child: const MyApp(),
-    ),
+    const MyApp(),
   );
 }
 
@@ -17,13 +15,32 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Brasileirão',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => TimesRepository()),
+        ChangeNotifierProvider(create: (_) => ThemeController())
+      ],
+      child: Consumer<ThemeController>(
+        builder: (context, themeController, _) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Brasileirão',
+            themeMode:
+                themeController.isDark ? ThemeMode.dark : ThemeMode.light,
+            theme: ThemeData(
+              primaryColor: Colors.green,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              brightness: Brightness.light,
+            ),
+            darkTheme: ThemeData.dark().copyWith(
+              brightness: Brightness.dark,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              primaryColor: Colors.grey,
+            ),
+            home: const HomePage(),
+          );
+        },
       ),
-      home: const HomePage(),
     );
   }
 }

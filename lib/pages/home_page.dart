@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_list_times/controller/home_controller.dart';
+import 'package:flutter_list_times/controller/theme_controller.dart';
 import 'package:flutter_list_times/models/times_model.dart';
 import 'package:flutter_list_times/pages/time_details_page.dart';
 import 'package:flutter_list_times/repository/times_repository.dart';
@@ -27,6 +28,16 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Brasileirão'),
         centerTitle: true,
+        actions: [
+          Consumer<ThemeController>(builder: (contex, themeController, _) {
+            return IconButton(
+              onPressed: () {
+                themeController.toggleTheme();
+              },
+              icon: const Icon(Icons.auto_fix_high_outlined),
+            );
+          })
+        ],
       ),
       body: Consumer<TimesRepository>(
         builder: (context, repositorio, child) {

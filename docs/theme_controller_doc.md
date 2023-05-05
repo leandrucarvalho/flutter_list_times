@@ -1,8 +1,8 @@
 Explicação do código:
 
-ThemeController estende a classe ChangeNotifier, que é a classe básica para gerenciamento de estado no Flutter.
+ThemeController com a palavra-chave with ChangeNotifier indica que a classe usa ChangeNotifier para notificar mudanças de estado.
 
-isDark é uma variável observável (observável com obs do pacote GetX) que armazena o estado atual do tema escuro.
+isDark é uma propriedade pública que retorna o estado atual do tema escuro.
 
 themeModes é um mapa que associa uma string (nome do tema) a um valor de ThemeMode (classe que representa o modo de tema do Flutter).
 
@@ -12,6 +12,4 @@ initPrefs é um método assíncrono que inicializa o objeto prefs e recupera o e
 
 toggleTheme é um método que alterna o estado do tema escuro entre true e false. Além disso, atualiza o objeto prefs com o novo estado do tema escuro e notifica todos os ouvintes de mudança de estado.
 
-of é um método estático que recebe um objeto de contexto BuildContext e retorna uma instância de ThemeController usando o Provider.of.
-
-Com o of você pode recuperar a instância do ThemeController em qualquer widget filho usando ThemeController.of(context). Por exemplo, para usar o método toggleTheme em um botão
+Com o provider você pode recuperar a instância do ThemeController em qualquer widget filho usando Provider.of<ThemeController>(context). Por exemplo, para usar o método toggleTheme em um botão

@@ -1,16 +1,65 @@
-# flutter_list_times
+<h1 align="center">
+  flutter_list_times
+</h1>
 
-A new Flutter project.
+<p align="center">
+    <a href="https://github.com/leandrucarvalho/flutter_list_times/issues/new/choose">Report Bug</a>
+</p>
 
-## Getting Started
+## 🚀 Screenshots
 
-This project is a starting point for a Flutter application.
+<p float="left">
+  <img src="" alt="HomePage" height="500"/>
+  <img src="" alt="TimeDetailsPage" height="506"/>
+</p>
 
-A few resources to get you started if this is your first Flutter project:
+## 🛠️ Installation Steps
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+1. Clone the repository
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+git clone https://github.com/leandrucarvalho/flutter_list_times.git
+```
+
+2. Change the working directory
+
+```bash
+cd flutter_list_times
+```
+
+3. Install dependencies
+
+```bash
+flutter pub get
+```
+
+4. Run the app
+
+```bash
+flutter run
+```
+
+🌟 You are all set!
+
+## 🍰 Contributing
+
+Please contribute using [GitHub Flow](https://guides.github.com/introduction/flow). Create a branch, add commits, and [open a pull request](https://github.com/develogo/the_movie_list/compare).
+
+<!-- Please read [`CONTRIBUTING`](CONTRIBUTING.md) for details on our [`CODE OF CONDUCT`](CODE_OF_CONDUCT.md), and the process for submitting pull requests to us. -->
+
+## 💻 Built with
+
+- [Flutter](https://flutter.dev/): for building the app
+
+## 📘 Comments
+
+-
+
+## 💡 Credits
+
+- [Prof. Diego Antunes](https://www.youtube.com/watch?v=b4ZxFLW7neQ&list=PL_wKlpKIC9vWubXsj3IRPZ2Rk6QMfsPPg&ab_channel=Prof.DiegoAntunes): flutter in practice.
+
+<hr>
+<p align="center">
+Developed with ❤️ in Flutter
+</p>

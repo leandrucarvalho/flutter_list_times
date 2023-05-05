@@ -13,3 +13,32 @@ initPrefs é um método assíncrono que inicializa o objeto prefs e recupera o e
 toggleTheme é um método que alterna o estado do tema escuro entre true e false. Além disso, atualiza o objeto prefs com o novo estado do tema escuro e notifica todos os ouvintes de mudança de estado.
 
 Com o provider você pode recuperar a instância do ThemeController em qualquer widget filho usando Provider.of<ThemeController>(context). Por exemplo, para usar o método toggleTheme em um botão
+
+class ThemeController with ChangeNotifier {
+var \_isDark = false;
+
+Map<String, ThemeMode> themeModes = {
+'light': ThemeMode.light,
+'dark': ThemeMode.dark,
+};
+
+SharedPreferences? prefs;
+
+ThemeController() {
+initPrefs();
+}
+
+bool get isDark => \_isDark;
+
+Future<void> initPrefs() async {
+prefs = await SharedPreferences.getInstance();
+\_isDark = prefs?.getBool('isDark') ?? false;
+notifyListeners();
+}
+
+void toggleTheme() {
+\_isDark = !\_isDark;
+prefs?.setBool('isDark', \_isDark);
+notifyListeners();
+}
+}

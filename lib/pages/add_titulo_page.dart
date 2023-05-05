@@ -45,6 +45,7 @@ class _AddTituloPageState extends State<AddTituloPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: widget.time.cor,
         title: const Text('Adicionar titulo'),
       ),
       body: Form(

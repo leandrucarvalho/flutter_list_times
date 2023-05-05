@@ -92,6 +92,11 @@ class _AddTituloPageState extends State<AddTituloPage> {
                 alignment: Alignment.bottomCenter,
                 margin: const EdgeInsets.all(24),
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: widget.time.cor,
+                    side: BorderSide(
+                        color: Theme.of(context).colorScheme.onSurface),
+                  ),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       save();

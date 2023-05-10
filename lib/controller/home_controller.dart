@@ -1,12 +1,15 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_list_times/models/times_model.dart';
 import 'package:flutter_list_times/repository/times_repository.dart';
 
-class HomeController {
-  late TimesRepository timesRepository;
+class HomeController extends ChangeNotifier {
+  final TimesRepository _repository;
+  List<Time> times = [];
 
-  List<Time> get tabela => timesRepository.times;
+  HomeController(this._repository);
 
-  HomeController() {
-    timesRepository = TimesRepository();
+  Future<void> init() async {
+    times = await _repository.getAll();
+    notifyListeners();
   }
 }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_list_times/controller/home_controller.dart';
 import 'package:flutter_list_times/controller/theme_controller.dart';
-import 'package:flutter_list_times/models/times_model.dart';
 import 'package:flutter_list_times/pages/time_details_page.dart';
-import 'package:flutter_list_times/repository/times_repository.dart';
 import 'package:provider/provider.dart';
+
+import '../models/times_model.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,7 +19,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    controller = HomeController();
+    controller = context.read<HomeController>();
+    controller.init();
   }
 
   @override
@@ -29,22 +30,24 @@ class _HomePageState extends State<HomePage> {
         title: const Text('Brasileirão'),
         centerTitle: true,
         actions: [
-          Consumer<ThemeController>(builder: (contex, themeController, _) {
-            return IconButton(
-              onPressed: () {
-                themeController.toggleTheme();
-              },
-              icon: const Icon(Icons.auto_fix_high_outlined),
-            );
-          })
+          Consumer<ThemeController>(
+            builder: (contex, themeController, _) {
+              return IconButton(
+                onPressed: () {
+                  themeController.toggleTheme();
+                },
+                icon: const Icon(Icons.auto_fix_high_outlined),
+              );
+            },
+          )
         ],
       ),
-      body: Consumer<TimesRepository>(
-        builder: (context, repositorio, child) {
+      body: Consumer<HomeController>(
+        builder: (context, controller, child) {
           return ListView.separated(
-            itemCount: repositorio.times.length,
+            itemCount: controller.times.length,
             itemBuilder: (BuildContext context, int index) {
-              final List<Time> tabela = repositorio.times;
+              final List<Time> tabela = controller.times;
               return ListTile(
                 leading: Hero(
                   tag: tabela[index].nome,
@@ -57,8 +60,8 @@ class _HomePageState extends State<HomePage> {
                 trailing: Text(
                   tabela[index].pontos.toString(),
                 ),
-                onTap: () {
-                  Navigator.push(
+                onTap: () async {
+                  await Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (_) => TimeDetailsPage(
@@ -67,6 +70,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   );
+                  controller.init();
                 },
               );
             },

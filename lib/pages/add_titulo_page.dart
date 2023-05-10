@@ -103,9 +103,9 @@ class _AddTituloPageState extends State<AddTituloPage> {
                       save();
                     }
                   },
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       Icon(Icons.check),
                       Padding(
                         padding: EdgeInsets.all(16),

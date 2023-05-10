@@ -4,10 +4,14 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class DataBase {
+  DataBase._();
+  static final DataBase instance = DataBase._();
   static const int _version = 1;
   static const String _dbName = 'times.db';
 
-  final db = DataBase().database;
+  static get() async {
+    return await DataBase.instance.database;
+  }
 
   Future<Database> get database async {
     return await openDatabase(
@@ -27,11 +31,11 @@ class DataBase {
         'times',
         {
           'nome': time.nome,
-          'brasao': time.brasao,
           'pontos': time.pontos,
-          //'idAPI': time.idAPI,
+          'brasao': time.brasao,
           'cor':
               time.cor.toString().replaceAll('Color(', '').replaceAll(')', ''),
+          //'idAPI': time.idAPI,
         },
       );
     }

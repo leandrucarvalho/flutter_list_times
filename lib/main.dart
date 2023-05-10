@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_list_times/controller/home_controller.dart';
 import 'package:flutter_list_times/controller/theme_controller.dart';
 import 'package:flutter_list_times/pages/home_page.dart';
 import 'package:flutter_list_times/repository/times_repository.dart';
@@ -17,8 +18,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => ThemeController()),
         ChangeNotifierProvider(create: (_) => TimesRepository()),
-        ChangeNotifierProvider(create: (_) => ThemeController())
+        ChangeNotifierProvider(
+            create: (contex) => HomeController(contex.read<TimesRepository>()))
       ],
       child: Consumer<ThemeController>(
         builder: (context, themeController, _) {

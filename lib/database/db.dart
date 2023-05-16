@@ -33,8 +33,7 @@ class DataBase {
           'nome': time.nome,
           'pontos': time.pontos,
           'brasao': time.brasao,
-          'cor':
-              time.cor.toString().replaceAll('Color(', '').replaceAll(')', ''),
+          'cor': time.cor.value,
           //'idAPI': time.idAPI,
         },
       );
@@ -47,7 +46,7 @@ class DataBase {
       nome TEXT,
       pontos INTEGER,
       brasao TEXT,
-      cor TEXT,
+      cor INTEGER,
       idAPI INTEGER
     );
   ''';

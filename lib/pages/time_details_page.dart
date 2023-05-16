@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_list_times/models/times_model.dart';
 import 'package:flutter_list_times/pages/add_titulo_page.dart';
@@ -6,14 +5,13 @@ import 'package:flutter_list_times/pages/edit_titulo_page.dart';
 import 'package:flutter_list_times/repository/times_repository.dart';
 import 'package:provider/provider.dart';
 
-// ignore: must_be_immutable
 class TimeDetailsPage extends StatefulWidget {
-  TimeDetailsPage({
+  final Time time;
+
+  const TimeDetailsPage({
     Key? key,
     required this.time,
   }) : super(key: key);
-
-  Time time;
 
   @override
   State<TimeDetailsPage> createState() => _TimeDetailsPageState();
@@ -105,7 +103,7 @@ class _TimeDetailsPageState extends State<TimeDetailsPage> {
   Widget titulos() {
     final time = Provider.of<TimesRepository>(context)
         .times
-        .firstWhere((t) => t.nome == widget.time.nome);
+        .firstWhere((t) => t.nome == t.nome);
 
     final quantidade = time.titulos.length;
 

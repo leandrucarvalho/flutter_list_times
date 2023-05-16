@@ -147,7 +147,7 @@ class TimesRepository extends ChangeNotifier {
           nome: time['nome'],
           brasao: time['brasao'],
           pontos: time['pontos'],
-          cor: Colors.red,
+          cor: Color(time['cor']),
           titulos: await getTitulos(time['id']),
         ),
       );

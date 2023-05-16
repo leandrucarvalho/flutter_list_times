@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>40463740783-13b8eeuidtuv5encklgnim202mqaoip8.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.40463740783-13b8eeuidtuv5encklgnim202mqaoip8</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDFwttDG9VXhTq7Lf_AnpSOo3Jp7L68LdY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>40463740783</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.flutterListTimes</string>
+	<key>PROJECT_ID</key>
+	<string>football-team-list</string>
+	<key>STORAGE_BUCKET</key>
+	<string>football-team-list.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:40463740783:ios:2857d04afef41ca8cc429a</string>
+</dict>
+</plist>

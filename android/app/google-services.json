@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "40463740783",
+    "project_id": "football-team-list",
+    "storage_bucket": "football-team-list.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40463740783:android:186c449c0965f3fccc429a",
+        "android_client_info": {
+          "package_name": "com.example.flutter_list_times"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "40463740783-2rd0e6ptori462g73u3ul2ee274dbujq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkelTwP8Cx7UmdOen9OsfAuuXSyzHip4A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "40463740783-2rd0e6ptori462g73u3ul2ee274dbujq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "40463740783-13b8eeuidtuv5encklgnim202mqaoip8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterListTimes"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

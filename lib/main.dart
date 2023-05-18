@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_list_times/controller/home_controller.dart';
 import 'package:flutter_list_times/controller/theme_controller.dart';
 import 'package:flutter_list_times/firebase_options.dart';
-import 'package:flutter_list_times/pages/home_page.dart';
 import 'package:flutter_list_times/repository/times_repository.dart';
+import 'package:flutter_list_times/widgets/checkauth.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
               visualDensity: VisualDensity.adaptivePlatformDensity,
               primaryColor: Colors.grey,
             ),
-            home: const HomePage(),
+            home: const CheckAuth(),
           );
         },
       ),

@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_list_times/controller/home_controller.dart';
 import 'package:flutter_list_times/controller/theme_controller.dart';
 import 'package:flutter_list_times/pages/time_details_page.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../models/times_model.dart';
@@ -15,6 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late HomeController controller;
+  final user = FirebaseAuth.instance.currentUser!;
 
   @override
   void initState() {
@@ -41,6 +44,22 @@ class _HomePageState extends State<HomePage> {
             },
           )
         ],
+      ),
+      drawer: Drawer(
+        child: SafeArea(
+          child: Column(children: [
+            ExpansionTile(
+              title: const Text('menu'),
+              leading: const Icon(FontAwesomeIcons.person),
+              childrenPadding: const EdgeInsets.only(left: 60),
+              children: [
+                ListTile(
+                  title: Text('User: ${user.email!}'),
+                )
+              ],
+            )
+          ]),
+        ),
       ),
       body: Consumer<HomeController>(
         builder: (context, controller, child) {

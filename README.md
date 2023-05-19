@@ -9,8 +9,9 @@
 ## 🚀 Screenshots
 
 <p float="left">
-  <img src="" alt="HomePage" height="500"/>
-  <img src="" alt="TimeDetailsPage" height="506"/>
+  <img src="https://github.com/leandrucarvalho/flutter_list_times/assets/56963289/0f5925f3-57a7-4275-b6c8-bfbfd372bde4" alt="LoginPage" height="500"/>
+  <img src="https://github.com/leandrucarvalho/flutter_list_times/assets/56963289/73fb630b-85d9-420f-b93a-12a956eb87e2" alt="HomePage" height="500"/>
+  <img src="https://github.com/leandrucarvalho/flutter_list_times/assets/56963289/17cdf1c8-0a25-47cd-beec-e27a87eb7037" alt="TimeDetailsPage" height="500"/>
 </p>
 
 ## 🛠️ Installation Steps

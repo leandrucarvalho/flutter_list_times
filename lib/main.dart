@@ -47,6 +47,10 @@ class MyApp extends StatelessWidget {
               primaryColor: Colors.grey,
             ),
             home: const CheckAuth(),
+/*             routes: {
+              '/': (context) => const CheckAuth(),
+              '/forgotpasswordpage': (context) => const ForgotPasswordPage(),
+            }, */
           );
         },
       ),

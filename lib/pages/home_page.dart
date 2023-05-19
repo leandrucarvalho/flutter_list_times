@@ -30,6 +30,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Builder(
+          builder: (context) {
+            return IconButton(
+              onPressed: () => Scaffold.of(context).openDrawer(),
+              icon: const Icon(FontAwesomeIcons.ellipsisVertical),
+            );
+          },
+        ),
         title: const Text('Brasileirão'),
         centerTitle: true,
         actions: [
@@ -45,21 +53,32 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      drawer: Drawer(
-        child: SafeArea(
-          child: Column(children: [
-            ExpansionTile(
-              title: const Text('menu'),
-              leading: const Icon(FontAwesomeIcons.person),
-              childrenPadding: const EdgeInsets.only(left: 60),
-              children: [
-                ListTile(
-                  title: Text('User: ${user.email!}'),
-                )
-              ],
-            )
-          ]),
-        ),
+      drawer: Consumer<ThemeController>(
+        builder: (context, themeController, child) {
+          return Drawer(
+            child: SafeArea(
+              child: Column(
+                children: [
+                  ExpansionTile(
+                    title: const Text('Conta'),
+                    childrenPadding: const EdgeInsets.only(left: 60),
+                    children: [
+                      ListTile(
+                        title: Text('User: ${user.email!}'),
+                      ),
+                      ListTile(
+                        onTap: () {
+                          FirebaseAuth.instance.signOut();
+                        },
+                        title: const Text('Sair'),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
+        },
       ),
       body: Consumer<HomeController>(
         builder: (context, controller, child) {

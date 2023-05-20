@@ -37,14 +37,16 @@ class MyApp extends StatelessWidget {
             themeMode:
                 themeController.isDark ? ThemeMode.dark : ThemeMode.light,
             theme: ThemeData(
+              appBarTheme: const AppBarTheme(color: Colors.deepPurple),
               primaryColor: Colors.green,
               visualDensity: VisualDensity.adaptivePlatformDensity,
               brightness: Brightness.light,
             ),
             darkTheme: ThemeData.dark().copyWith(
-              brightness: Brightness.dark,
-              visualDensity: VisualDensity.adaptivePlatformDensity,
+              appBarTheme: const AppBarTheme(color: Colors.deepPurple),
               primaryColor: Colors.grey,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              brightness: Brightness.dark,
             ),
             home: const CheckAuth(),
 /*             routes: {

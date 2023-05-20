@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_list_times/controller/home_controller.dart';
@@ -18,6 +19,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late HomeController controller;
   final user = FirebaseAuth.instance.currentUser!;
+  final userName = FirebaseFirestore.instance.collection('users');
 
   @override
   void initState() {
@@ -64,7 +66,7 @@ class _HomePageState extends State<HomePage> {
                     childrenPadding: const EdgeInsets.only(left: 60),
                     children: [
                       ListTile(
-                        title: Text('User: ${user.email!}'),
+                        title: Text(user.email!),
                       ),
                       ListTile(
                         onTap: () {

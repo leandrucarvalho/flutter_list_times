@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -23,25 +24,52 @@ class _RegistrarPageState extends State<RegistrarPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _ageController = TextEditingController();
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _ageController.dispose();
     super.dispose();
   }
 
   Future signUp() async {
     if (passwordConfirmed()) {
+      // cadastrar usuário
       try {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _emailController.text.trim(), //trim ajuda a formatar o texto
           password: _passwordController.text.trim(),
         );
+        addUserDetails(
+          _firstNameController.text.trim(),
+          _lastNameController.text.trim(),
+          _emailController.text.trim(),
+          int.parse(
+            _ageController.text.trim(),
+          ),
+        );
       } on FirebaseAuthException catch (e) {
         return ('${e.code}: ${e.message}');
       }
     }
+  }
+
+  Future addUserDetails(
+      String firstName, String lastName, String email, int age) async {
+    await FirebaseFirestore.instance.collection('users').add(
+      {
+        'first_name': firstName,
+        'last_name': lastName,
+        'email': email,
+        'age': age,
+      },
+    );
   }
 
   bool passwordConfirmed() {
@@ -66,19 +94,13 @@ class _RegistrarPageState extends State<RegistrarPage> {
                   children: [
                     const FaIcon(
                       FontAwesomeIcons.futbol,
-                      size: 70,
-                    ),
-                    const SizedBox(
-                      height: 20,
+                      size: 40,
                     ),
                     Text(
                       'Seja Bem Vindo!',
                       style: GoogleFonts.bebasNeue(
-                        fontSize: 60,
+                        fontSize: 30,
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
                     ),
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -99,7 +121,71 @@ class _RegistrarPageState extends State<RegistrarPage> {
                       ],
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child: TextField(
+                        controller: _firstNameController,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.deepPurple),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          hintText: 'Primeiro Nome',
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child: TextField(
+                        controller: _lastNameController,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.deepPurple),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          hintText: 'Sobrenome',
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        controller: _ageController,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.deepPurple),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          hintText: 'Idade',
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -148,7 +234,7 @@ class _RegistrarPageState extends State<RegistrarPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 25),
                       child: TextField(
                         obscureText: true,
-                        controller: _passwordController,
+                        controller: _confirmPasswordController,
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(color: Colors.black),
@@ -195,7 +281,7 @@ class _RegistrarPageState extends State<RegistrarPage> {
                       height: 10,
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(25),
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
                       child: Row(
                         children: [
                           Expanded(
@@ -205,7 +291,7 @@ class _RegistrarPageState extends State<RegistrarPage> {
                             ),
                           ),
                           const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            padding: EdgeInsets.symmetric(horizontal: 10),
                             child: Text(
                               'Ou',
                               style: TextStyle(fontWeight: FontWeight.bold),

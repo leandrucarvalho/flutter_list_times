@@ -63,7 +63,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
-        title: const Text('Resete sua senha!'),
+        title: const Text('Resete sua senha abaixo'),
         centerTitle: true,
         elevation: 0,
       ),
@@ -112,7 +112,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               ),
             ),
             //color: Colors.deepPurple,
-            child: const Text('Resetar senha'),
+            child: const Text('Enviar'),
           )
         ],
       ),

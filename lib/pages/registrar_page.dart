@@ -61,7 +61,11 @@ class _RegistrarPageState extends State<RegistrarPage> {
   }
 
   Future addUserDetails(
-      String firstName, String lastName, String email, int age) async {
+    String firstName,
+    String lastName,
+    String email,
+    int age,
+  ) async {
     await FirebaseFirestore.instance.collection('users').add(
       {
         'first_name': firstName,
@@ -102,9 +106,9 @@ class _RegistrarPageState extends State<RegistrarPage> {
                         fontSize: 30,
                       ),
                     ),
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: const [
                         Text(
                           'Cadastre-se abaixo e',
                           style: TextStyle(
@@ -311,9 +315,9 @@ class _RegistrarPageState extends State<RegistrarPage> {
                     ),
                     GestureDetector(
                       onTap: widget.showLoginPage,
-                      child: const Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: const [
                           Text(
                             'Ja é um membro?',
                           ),

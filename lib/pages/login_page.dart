@@ -32,12 +32,45 @@ class _LoginPageState extends State<LoginPage> {
 
   Future signIn() async {
     try {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      );
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text.trim(), //trim ajuda a formatar o texto
         password: _passwordController.text.trim(),
       );
+      if (!mounted) return;
+      Navigator.of(context).pop();
     } on FirebaseAuthException catch (e) {
-      return '${e.code}: ${e.message}';
+      Navigator.of(context).pop();
+      if (e.code == 'wrong-password') {
+        return showDialog(
+          context: context,
+          builder: (context) {
+            return const Center(
+              child: AlertDialog(
+                content: Text('Senha incorreta'),
+              ),
+            );
+          },
+        );
+      } else if (e.code == 'user-not-found') {
+        return showDialog(
+          context: context,
+          builder: (context) {
+            return const Center(
+              child: AlertDialog(
+                content: Text('Usuário não encontrado'),
+              ),
+            );
+          },
+        );
+      }
     }
   }
 

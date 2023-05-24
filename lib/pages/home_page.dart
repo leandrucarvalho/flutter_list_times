@@ -17,18 +17,18 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with ChangeNotifier {
+class _HomePageState extends State<HomePage> {
   late HomeController controller;
   final user = FirebaseAuth.instance.currentUser!;
   late GetDocIdController getDocIdController;
 
   @override
   void initState() {
-    super.initState();
     controller = context.read<HomeController>();
     getDocIdController = context.read<GetDocIdController>();
     controller.init();
     getDocIdController.getDocId();
+    super.initState();
   }
 
   @override

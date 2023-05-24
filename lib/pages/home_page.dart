@@ -1,8 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_list_times/controller/get_docid_controller.dart';
 import 'package:flutter_list_times/controller/home_controller.dart';
 import 'package:flutter_list_times/controller/theme_controller.dart';
+import 'package:flutter_list_times/database/get_user_name.dart';
 import 'package:flutter_list_times/pages/time_details_page.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -16,16 +17,18 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with ChangeNotifier {
   late HomeController controller;
   final user = FirebaseAuth.instance.currentUser!;
-  final userName = FirebaseFirestore.instance.collection('users');
+  late GetDocIdController getDocIdController;
 
   @override
   void initState() {
     super.initState();
     controller = context.read<HomeController>();
+    getDocIdController = context.read<GetDocIdController>();
     controller.init();
+    getDocIdController.getDocId();
   }
 
   @override
@@ -59,24 +62,54 @@ class _HomePageState extends State<HomePage> {
         builder: (context, themeController, child) {
           return Drawer(
             child: SafeArea(
-              child: Column(
-                children: [
-                  ExpansionTile(
-                    title: const Text('Conta'),
-                    childrenPadding: const EdgeInsets.only(left: 60),
+              child: Consumer<GetDocIdController>(
+                builder: (context, getDocIdController, child) {
+                  return Column(
                     children: [
-                      ListTile(
-                        title: Text(user.email!),
+                      ExpansionTile(
+                        title: const Text('Conta'),
+                        childrenPadding: const EdgeInsets.only(left: 60),
+                        children: [
+                          Builder(builder: (context) {
+                            return ListTile(
+                              title: Text(user.email!),
+                            );
+                          }),
+                          ListTile(
+                            onTap: () {
+                              FirebaseAuth.instance.signOut();
+                            },
+                            title: const Text('Sair'),
+                            trailing: const Icon(Icons.logout),
+                          ),
+                        ],
                       ),
-                      ListTile(
-                        onTap: () {
-                          FirebaseAuth.instance.signOut();
-                        },
-                        title: const Text('Sair'),
-                      )
+                      ExpansionTile(
+                        title: const Text('Usuários cadastrados na plataforma'),
+                        childrenPadding: const EdgeInsets.only(left: 60),
+                        children: [
+                          ListTile(
+                            onTap: () {
+                              getDocIdController.getDocId();
+                            },
+                            title: const Text('Ordenar por ordem crescente'),
+                          ),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: getDocIdController.docIDs.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                title: GetUserName(
+                                    documentId:
+                                        getDocIdController.docIDs[index]),
+                              );
+                            },
+                          )
+                        ],
+                      ),
                     ],
-                  )
-                ],
+                  );
+                },
               ),
             ),
           );

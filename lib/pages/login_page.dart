@@ -22,7 +22,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  static final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -41,6 +41,7 @@ class _LoginPageState extends State<LoginPage> {
           );
         },
       );
+      //await Future.delayed(const Duration(seconds: 5));
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text.trim(), //trim ajuda a formatar o texto
         password: _passwordController.text.trim(),
@@ -125,57 +126,89 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: TextField(
-                      controller: _emailController,
-                      decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.deepPurple),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        hintText: 'Email',
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: Form(
                       key: _formKey,
-                      child: TextFormField(
-                        obscureText: true,
-                        controller: _passwordController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.circular(12),
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            controller: _emailController,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Colors.deepPurple),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Colors.deepPurple),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              hintText: 'Email',
+                            ),
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Digite um email';
+                              } else if (!RegExp(
+                                      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                  .hasMatch(value)) {
+                                return 'O email deve ser valido';
+                              }
+                              return null;
+                            },
                           ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.circular(12),
+                          const SizedBox(
+                            height: 10,
                           ),
-                          hintText: 'Senha',
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: Colors.deepPurple),
-                            borderRadius: BorderRadius.circular(12),
+                          TextFormField(
+                            obscureText: true,
+                            controller: _passwordController,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              hintText: 'Senha',
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Colors.deepPurple),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Colors.deepPurple),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Informe sua senha';
+                              } else if (value.length < 6) {
+                                return 'Sua senha deve ter no mínimo 6 caracteres';
+                              }
+                              return null;
+                            },
                           ),
-                        ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Informe sua senha';
-                          } else if (value.length < 6) {
-                            return 'Sua senha deve ter no mínimo 6 caracteres';
-                          }
-                          return null;
-                        },
+                        ],
                       ),
                     ),
                   ),
@@ -189,7 +222,11 @@ class _LoginPageState extends State<LoginPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: InkWell(
-                      onTap: signIn,
+                      onTap: () {
+                        if (_formKey.currentState!.validate()) {
+                          signIn();
+                        }
+                      },
                       child: Ink(
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(

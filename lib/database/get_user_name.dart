@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class GetUserName extends StatelessWidget {
   final String documentId;
 
-  const GetUserName({super.key, required this.documentId});
+  const GetUserName(this.documentId, {super.key});
 
   @override
   Widget build(BuildContext context) {

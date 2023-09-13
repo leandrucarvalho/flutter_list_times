@@ -1,10 +1,10 @@
 class Titulo {
-  int? id;
+  String id;
   String campeonato;
   String ano;
 
   Titulo({
-    this.id,
+    required this.id,
     required this.campeonato,
     required this.ano,
   });

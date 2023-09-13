@@ -1,6 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_list_times/controller/login_controller.dart';
 import 'package:flutter_list_times/widgets/forgot_password_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,10 +8,10 @@ import 'package:provider/provider.dart';
 import 'package:flutter_list_times/controller/theme_controller.dart';
 
 class LoginPage extends StatefulWidget {
-  final VoidCallback showRegisterPage;
+  final VoidCallback? showRegisterPage;
   const LoginPage({
     Key? key,
-    required this.showRegisterPage,
+    this.showRegisterPage,
   }) : super(key: key);
 
   @override
@@ -22,7 +21,9 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  static final _formKey = GlobalKey<FormState>();
+  final loginController = AuthService();
+  var isLoading = false;
 
   @override
   void dispose() {
@@ -31,48 +32,10 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  Future signIn() async {
-    try {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-      );
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text.trim(), //trim ajuda a formatar o texto
-        password: _passwordController.text.trim(),
-      );
-      if (!mounted) return;
-      Navigator.of(context).pop();
-    } on FirebaseAuthException catch (e) {
-      Navigator.of(context).pop();
-      if (e.code == 'wrong-password') {
-        return showDialog(
-          context: context,
-          builder: (context) {
-            return const Center(
-              child: AlertDialog(
-                content: Text('Senha incorreta'),
-              ),
-            );
-          },
-        );
-      } else if (e.code == 'user-not-found') {
-        return showDialog(
-          context: context,
-          builder: (context) {
-            return const Center(
-              child: AlertDialog(
-                content: Text('Usuário não encontrado'),
-              ),
-            );
-          },
-        );
-      }
-    }
+  Future<void> setIsLoading() async {
+    setState(() {
+      isLoading = true;
+    });
   }
 
   @override
@@ -125,31 +88,19 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: Form(
-                      child: TextFormField(
-                        controller: _emailController,
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: Colors.deepPurple),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          hintText: 'Email',
+                    child: TextField(
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.black),
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Digite seu email';
-                          } else if (value.contains(RegExp(
-                              r'/^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i'))) {
-                            return 'email invalido';
-                          }
-                          return null;
-                        },
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.deepPurple),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        hintText: 'Email',
                       ),
                     ),
                   ),
@@ -201,11 +152,7 @@ class _LoginPageState extends State<LoginPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: InkWell(
-                      onTap: () {
-                        if (_formKey.currentState!.validate()) {
-                          signIn();
-                        }
-                      },
+                      onTap: signIn,
                       child: Ink(
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(

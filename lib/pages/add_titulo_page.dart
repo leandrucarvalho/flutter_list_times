@@ -29,6 +29,7 @@ class _AddTituloPageState extends State<AddTituloPage> {
       titulo: Titulo(
         campeonato: _campeonato.text,
         ano: _ano.text,
+        id: '',
       ),
     );
 

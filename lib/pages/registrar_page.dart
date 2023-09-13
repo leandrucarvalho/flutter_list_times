@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_list_times/controller/login_controller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +26,8 @@ class _RegistrarPageState extends State<RegistrarPage> {
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _ageController = TextEditingController();
+  final loginController = AuthService();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -36,53 +37,6 @@ class _RegistrarPageState extends State<RegistrarPage> {
     _lastNameController.dispose();
     _ageController.dispose();
     super.dispose();
-  }
-
-  Future signUp() async {
-    if (passwordConfirmed()) {
-      // cadastrar usuário
-      try {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: _emailController.text.trim(), //trim ajuda a formatar o texto
-          password: _passwordController.text.trim(),
-        );
-        addUserDetails(
-          _firstNameController.text.trim(),
-          _lastNameController.text.trim(),
-          _emailController.text.trim(),
-          int.parse(
-            _ageController.text.trim(),
-          ),
-        );
-      } on FirebaseAuthException catch (e) {
-        return ('${e.code}: ${e.message}');
-      }
-    }
-  }
-
-  Future addUserDetails(
-    String firstName,
-    String lastName,
-    String email,
-    int age,
-  ) async {
-    await FirebaseFirestore.instance.collection('users').add(
-      {
-        'first_name': firstName,
-        'last_name': lastName,
-        'email': email,
-        'age': age,
-      },
-    );
-  }
-
-  bool passwordConfirmed() {
-    if (_passwordController.text.trim() ==
-        _confirmPasswordController.text.trim()) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   @override
@@ -128,128 +82,126 @@ class _RegistrarPageState extends State<RegistrarPage> {
                       height: 10,
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: TextField(
-                        controller: _firstNameController,
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: Colors.deepPurple),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          hintText: 'Primeiro Nome',
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: TextField(
-                        controller: _lastNameController,
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: Colors.deepPurple),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          hintText: 'Sobrenome',
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: TextField(
-                        keyboardType: TextInputType.number,
-                        controller: _ageController,
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: Colors.deepPurple),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          hintText: 'Idade',
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: TextField(
-                        controller: _emailController,
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: Colors.deepPurple),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          hintText: 'Email',
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: TextField(
-                        obscureText: true,
-                        controller: _passwordController,
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: Colors.deepPurple),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          hintText: 'Senha',
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: TextField(
-                        obscureText: true,
-                        controller: _confirmPasswordController,
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: Colors.deepPurple),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          hintText: 'Confirme sua senha',
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              controller: _firstNameController,
+                              decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.deepPurple),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                hintText: 'Primeiro Nome',
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            TextFormField(
+                              controller: _lastNameController,
+                              decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.deepPurple),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                hintText: 'Sobrenome',
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            TextFormField(
+                              keyboardType: TextInputType.number,
+                              controller: _ageController,
+                              decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.deepPurple),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                hintText: 'Idade',
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            TextFormField(
+                              controller: _emailController,
+                              decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.deepPurple),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                hintText: 'Email',
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            TextFormField(
+                              obscureText: true,
+                              controller: _passwordController,
+                              decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.deepPurple),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                hintText: 'Senha',
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            TextFormField(
+                              obscureText: true,
+                              controller: _confirmPasswordController,
+                              decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.deepPurple),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                hintText: 'Confirme sua senha',
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -259,7 +211,35 @@ class _RegistrarPageState extends State<RegistrarPage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25),
                       child: InkWell(
-                        onTap: signUp,
+                        onTap: () async {
+                          if (_formKey.currentState!.validate()) {
+                            String? resultSingUp = await loginController.signUp(
+                                email: _emailController.text,
+                                password: _passwordController.text);
+
+                            if (resultSingUp == null) {
+                              loginController.addUserDetails(
+                                _firstNameController.text,
+                                _lastNameController.text,
+                                _emailController.text,
+                                int.parse(_ageController.text),
+                              );
+                            } else {
+                              if (context.mounted) {
+                                return showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return Center(
+                                      child: AlertDialog(
+                                        content: Text(resultSingUp),
+                                      ),
+                                    );
+                                  },
+                                );
+                              }
+                            }
+                          }
+                        },
                         child: Ink(
                           padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(

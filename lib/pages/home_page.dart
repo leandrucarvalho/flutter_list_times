@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_list_times/controller/get_docid_controller.dart';
 import 'package:flutter_list_times/controller/home_controller.dart';
+import 'package:flutter_list_times/controller/login_controller.dart';
 import 'package:flutter_list_times/controller/theme_controller.dart';
 import 'package:flutter_list_times/database/get_user_name.dart';
 import 'package:flutter_list_times/pages/time_details_page.dart';
@@ -21,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   late HomeController controller;
   final user = FirebaseAuth.instance.currentUser!;
   late GetDocIdController getDocIdController;
+  final loginController = AuthService();
 
   @override
   void initState() {
@@ -70,14 +72,16 @@ class _HomePageState extends State<HomePage> {
                         title: const Text('Conta'),
                         childrenPadding: const EdgeInsets.only(left: 60),
                         children: [
-                          Builder(builder: (context) {
-                            return ListTile(
-                              title: Text(user.email!),
-                            );
-                          }),
+                          Builder(
+                            builder: (context) {
+                              return ListTile(
+                                title: Text('${user.email}'),
+                              );
+                            },
+                          ),
                           ListTile(
                             onTap: () {
-                              FirebaseAuth.instance.signOut();
+                              loginController.signOut();
                             },
                             title: const Text('Sair'),
                             trailing: const Icon(Icons.logout),
@@ -92,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                             onTap: () {
                               getDocIdController.getDocId();
                             },
-                            title: const Text('Ordenar por ordem crescente'),
+                            trailing: const Icon(FontAwesomeIcons.arrowsUpDown),
                           ),
                           ListView.builder(
                             shrinkWrap: true,
@@ -100,8 +104,8 @@ class _HomePageState extends State<HomePage> {
                             itemBuilder: (context, index) {
                               return ListTile(
                                 title: GetUserName(
-                                    documentId:
-                                        getDocIdController.docIDs[index]),
+                                  getDocIdController.docIDs[index],
+                                ),
                               );
                             },
                           )

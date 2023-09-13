@@ -1,7 +1,9 @@
 import 'dart:collection';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_list_times/database/db.dart';
+import 'package:flutter_list_times/database/db_firestore.dart';
 import 'package:flutter_list_times/models/titulo_model.dart';
 
 import '../models/times_model.dart';
@@ -15,13 +17,23 @@ class TimesRepository extends ChangeNotifier {
   UnmodifiableListView<Time> get times => UnmodifiableListView(_times);
 
   void addTitulo({required Time time, required Titulo titulo}) async {
-    final Database dbInstance = await db.database;
+/*     final Database dbInstance = await db.database;
     int id = await dbInstance.insert('titulos', {
       'time_id': time.id,
       'campeonato': titulo.campeonato,
       'ano': titulo.ano
     });
-    titulo.id = id;
+    titulo.id = id as String; */
+
+    FirebaseFirestore db = await DBFirestore.get();
+    var docRef = await db.collection('titulos').add({
+      'time_id': time.id,
+      'campeonato': titulo.campeonato,
+      'ano': titulo.ano
+    });
+
+    titulo.id = docRef.id;
+
     time.titulos.add(titulo);
     notifyListeners();
   }
@@ -30,13 +42,20 @@ class TimesRepository extends ChangeNotifier {
       {required Titulo titulo,
       required String ano,
       required String campeonato}) async {
-    final Database dbInstance = await db.database;
+/*     final Database dbInstance = await db.database;
     await dbInstance.update(
       'titulos',
       {'campeonato': titulo.campeonato, 'ano': titulo.ano},
       where: 'id = ?',
       whereArgs: [titulo.id],
-    );
+    ); */
+
+    FirebaseFirestore db = await DBFirestore.get();
+    await db
+        .collection('titulos')
+        .doc(titulo.id)
+        .update({'campeonato': campeonato, 'ano': ano});
+
     titulo.ano = ano;
     titulo.campeonato = campeonato;
     notifyListeners();
@@ -157,7 +176,7 @@ class TimesRepository extends ChangeNotifier {
   }
 
   Future<List<Titulo>> getTitulos(timeId) async {
-    final Database dbInstance = await db.database;
+/*     final Database dbInstance = await db.database;
     final List results = await dbInstance
         .query('titulos', where: 'time_id = ?', whereArgs: [timeId]);
     List<Titulo> titulos = [];
@@ -170,6 +189,22 @@ class TimesRepository extends ChangeNotifier {
           ano: titulo['ano'],
         ),
       );
+    } */
+
+    FirebaseFirestore db = await DBFirestore.get();
+    var snapshot = await db
+        .collection('titulos')
+        .where('time_id', isEqualTo: timeId)
+        .get();
+
+    List<Titulo> titulos = [];
+    for (var doc in snapshot.docs) {
+      final data = doc.data();
+      titulos.add(Titulo(
+        id: doc.id,
+        campeonato: data['campeonato'],
+        ano: data['ano'],
+      ));
     }
     notifyListeners();
     return titulos;

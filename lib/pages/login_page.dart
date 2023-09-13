@@ -125,19 +125,31 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: TextField(
-                      controller: _emailController,
-                      decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.circular(12),
+                    child: Form(
+                      child: TextFormField(
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.deepPurple),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          hintText: 'Email',
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.deepPurple),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        hintText: 'Email',
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Digite seu email';
+                          } else if (value.contains(RegExp(
+                              r'/^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i'))) {
+                            return 'email invalido';
+                          }
+                          return null;
+                        },
                       ),
                     ),
                   ),
@@ -189,7 +201,11 @@ class _LoginPageState extends State<LoginPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: InkWell(
-                      onTap: signIn,
+                      onTap: () {
+                        if (_formKey.currentState!.validate()) {
+                          signIn();
+                        }
+                      },
                       child: Ink(
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
